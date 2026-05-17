@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir D:\\\\Diploms\\\\2025-2026\\\\Musa:*)",
+      "Bash(mkdir -p /d/Diploms/2025-2026/Musa/uni-app/backend/src/modules/auth /d/Diploms/2025-2026/Musa/uni-app/backend/src/modules/users /d/Diploms/2025-2026/Musa/uni-app/backend/src/modules/news /d/Diploms/2025-2026/Musa/uni-app/backend/src/modules/resources /d/Diploms/2025-2026/Musa/uni-app/backend/src/modules/categories /d/Diploms/2025-2026/Musa/uni-app/backend/src/modules/notifications /d/Diploms/2025-2026/Musa/uni-app/backend/src/lib /d/Diploms/2025-2026/Musa/uni-app/backend/src/middleware /d/Diploms/2025-2026/Musa/uni-app/backend/prisma)",
+      "Bash(mkdir -p /d/Diploms/2025-2026/Musa/uni-app/mobile/src/screens/admin /d/Diploms/2025-2026/Musa/uni-app/mobile/src/screens/news /d/Diploms/2025-2026/Musa/uni-app/mobile/src/screens/resources /d/Diploms/2025-2026/Musa/uni-app/mobile/src/services /d/Diploms/2025-2026/Musa/uni-app/mobile/src/store /d/Diploms/2025-2026/Musa/uni-app/mobile/src/navigation /d/Diploms/2025-2026/Musa/uni-app/mobile/src/components /d/Diploms/2025-2026/Musa/uni-app/mobile/src/types /d/Diploms/2025-2026/Musa/uni-app/mobile/src/utils)",
+      "Bash(npm --version)",
+      "Bash(psql --version)",
+      "Read(//c/Program Files/PostgreSQL//**)",
+      "Read(//c/Program Files \\(x86\\)/**)",
+      "Bash(ipconfig)",
+      "Bash(/c/Program Files/PostgreSQL/18/bin/psql.exe:*)",
+      "Bash(PGPASSWORD=ADMIN \"/c/Program Files/PostgreSQL/18/bin/psql.exe\" -U postgres -c \"CREATE DATABASE uni_app;\")",
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(npx prisma:*)",
+      "Bash(npm run:*)",
+      "Bash(curl -s http://localhost:3000/health)",
+      "Bash(powershell.exe:*)",
+      "Bash(npm install:*)",
+      "Bash(npx expo:*)",
+      "Bash(/c/Users/Alim/AppData/Local/Android/Sdk/emulator/emulator.exe:*)",
+      "Bash(\"/c/Users/Alim/AppData/Local/Android/Sdk/platform-tools/adb.exe\" devices:*)",
+      "Bash(/c/Users/Alim/AppData/Local/Android/Sdk/platform-tools/adb.exe shell:*)",
+      "Bash(\"/c/Users/Alim/AppData/Local/Android/Sdk/cmdline-tools/latest/bin/sdkmanager.bat\" --list)",
+      "Bash(\"/c/Users/Alim/AppData/Local/Android/Sdk/cmdline-tools/latest/bin/sdkmanager.bat\" --list_installed)",
+      "Bash(/c/Users/Alim/AppData/Local/Android/Sdk/cmdline-tools/latest/bin/avdmanager.bat create:*)",
+      "Bash(\"/c/Users/Alim/AppData/Local/Android/Sdk/platform-tools/adb.exe\" emu:*)",
+      "Bash(\"/c/Users/Alim/AppData/Local/Android/Sdk/platform-tools/adb.exe\" shell:*)",
+      "Bash(grep -v \"style\\\\|//\")",
+      "Bash(curl -L \"https://picsum.photos/id/1/800/400\" -o news1.jpg)",
+      "Bash(curl -L \"https://picsum.photos/id/20/800/400\" -o news2.jpg)",
+      "Bash(curl -L \"https://picsum.photos/id/43/800/400\" -o news3.jpg)",
+      "Bash(curl -L \"https://picsum.photos/id/96/800/400\" -o news4.jpg)",
+      "Bash(curl -L \"https://picsum.photos/id/119/800/400\" -o news5.jpg)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Musa\" -Force)",
+      "Bash(Select-Object Name, PSIsContainer)"
+    ]
+  }
+}
