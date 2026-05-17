@@ -4,6 +4,7 @@ import { Resource, ResourceType } from '../types';
 interface ResourceFilters {
   categoryId?: string;
   type?: ResourceType;
+  search?: string;
 }
 
 interface CreateResourceDto {

@@ -14,12 +14,13 @@ const resourceSchema = z.object({
 
 export async function index(req: Request, res: Response): Promise<void> {
   try {
-    const { categoryId, type } = req.query;
+    const { categoryId, type, search } = req.query;
     const isAdmin = req.user?.role === 'ADMIN';
 
     const resources = await getResourcesList({
       categoryId: categoryId as string | undefined,
       type: type as string | undefined,
+      search: search as string | undefined,
       onlyPublished: !isAdmin,
     });
 

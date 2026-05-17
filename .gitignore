@@ -3,6 +3,7 @@ node_modules
 .env
 uploads
 uni-app/backend/public/images/
+uni-app/backend/public/files/
 docs
 .prettierrc
 # PM2 logs

@@ -11,9 +11,11 @@ import {
   Alert,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import * as DocumentPicker from 'expo-document-picker';
 
 import { getResourceById, createResource, updateResource } from '../../services/resources.service';
 import { getCategories } from '../../services/categories.service';
+import { uploadFile } from '../../services/upload.service';
 import { Category, ResourceType, RootStackParamList } from '../../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'AdminResourceForm'>;
@@ -36,9 +38,11 @@ export default function AdminResourceFormScreen({ route, navigation }: Props) {
   const [categoryId, setCategoryId] = useState<string | undefined>();
   const [isPublished, setIsPublished] = useState(false);
 
+  const [fileName, setFileName] = useState('');
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(isEdit);
   const [isSaving, setIsSaving] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({ title: isEdit ? 'Редактировать ресурс' : 'Новый ресурс' });
@@ -57,6 +61,7 @@ export default function AdminResourceFormScreen({ route, navigation }: Props) {
         setType(resource.type);
         setUrl(resource.url || '');
         setFileUrl(resource.fileUrl || '');
+        if (resource.fileUrl) setFileName('Прикреплённый файл');
         setCategoryId(resource.categoryId || undefined);
         setIsPublished(resource.isPublished);
       }
@@ -64,6 +69,27 @@ export default function AdminResourceFormScreen({ route, navigation }: Props) {
       Alert.alert('Ошибка', 'Не удалось загрузить данные');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const pickFile = async () => {
+    const result = await DocumentPicker.getDocumentAsync({
+      type: '*/*',
+      copyToCacheDirectory: true,
+    });
+    if (result.canceled) return;
+
+    const asset = result.assets[0];
+    setIsUploading(true);
+    try {
+      const uploaded = await uploadFile(asset.uri, asset.name, asset.mimeType);
+      setFileUrl(uploaded.url);
+      setFileName(uploaded.name);
+    } catch (error: any) {
+      const msg = error?.response?.data?.message || error?.message || 'Не удалось загрузить файл';
+      Alert.alert('Ошибка', msg);
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -142,8 +168,37 @@ export default function AdminResourceFormScreen({ route, navigation }: Props) {
 
         {(type === 'FILE') && (
           <View style={styles.field}>
-            <Text style={styles.label}>URL файла</Text>
-            <TextInput style={styles.input} value={fileUrl} onChangeText={setFileUrl} placeholder="https://..." placeholderTextColor="#9ca3af" keyboardType="url" autoCapitalize="none" />
+            <Text style={styles.label}>Файл</Text>
+            {!!fileName && (
+              <View style={styles.fileChip}>
+                <Text style={styles.fileChipName} numberOfLines={1}>{fileName}</Text>
+                <TouchableOpacity onPress={() => { setFileUrl(''); setFileName(''); }}>
+                  <Text style={styles.fileChipRemove}>Убрать</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+            <TouchableOpacity
+              style={[styles.uploadButton, isUploading && styles.uploadButtonDisabled]}
+              onPress={pickFile}
+              disabled={isUploading}
+            >
+              {isUploading ? (
+                <ActivityIndicator color="#1E40AF" size="small" />
+              ) : (
+                <Text style={styles.uploadButtonText}>
+                  {fileUrl ? 'Заменить файл' : 'Загрузить с устройства'}
+                </Text>
+              )}
+            </TouchableOpacity>
+            <TextInput
+              style={[styles.input, { marginTop: 8 }]}
+              value={fileUrl}
+              onChangeText={setFileUrl}
+              placeholder="или вставьте ссылку https://..."
+              placeholderTextColor="#9ca3af"
+              keyboardType="url"
+              autoCapitalize="none"
+            />
           </View>
         )}
 
@@ -195,6 +250,31 @@ const styles = StyleSheet.create({
     color: '#0F172A',
   },
   textarea: { minHeight: 100, textAlignVertical: 'top' },
+  uploadButton: {
+    backgroundColor: '#EEF2FF',
+    borderRadius: 14,
+    borderWidth: 1.5,
+    borderColor: '#C7D2FE',
+    paddingVertical: 13,
+    alignItems: 'center',
+  },
+  uploadButtonDisabled: { opacity: 0.6 },
+  uploadButtonText: { color: '#1E40AF', fontSize: 14, fontWeight: '700' },
+  fileChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#ffffff',
+    borderRadius: 12,
+    borderWidth: 1.5,
+    borderColor: '#E2E8F0',
+    paddingHorizontal: 14,
+    paddingVertical: 11,
+    marginBottom: 8,
+    gap: 12,
+  },
+  fileChipName: { flex: 1, fontSize: 14, color: '#0F172A', fontWeight: '600' },
+  fileChipRemove: { fontSize: 13, color: '#DC2626', fontWeight: '700' },
   typeRow: { flexDirection: 'row', gap: 8 },
   typeBtn: {
     flex: 1,

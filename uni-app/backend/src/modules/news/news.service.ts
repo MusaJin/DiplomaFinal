@@ -11,6 +11,7 @@ interface CreateNewsDto {
   shortDescription: string;
   content: string;
   imageUrl?: string;
+  gallery?: string[];
   categoryId?: string;
   isPublished?: boolean;
   authorId: string;
@@ -21,6 +22,7 @@ interface UpdateNewsDto {
   shortDescription?: string;
   content?: string;
   imageUrl?: string;
+  gallery?: string[];
   categoryId?: string;
   isPublished?: boolean;
 }

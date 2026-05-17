@@ -6,6 +6,7 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  TextInput,
   RefreshControl,
   ActivityIndicator,
 } from 'react-native';
@@ -39,13 +40,14 @@ export default function ResourcesListScreen() {
   const [resources, setResources] = useState<Resource[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>();
+  const [search, setSearch] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
   const loadData = useCallback(async () => {
     try {
       const [resourcesData, categoriesData] = await Promise.all([
-        getResources({ categoryId: selectedCategory }),
+        getResources({ categoryId: selectedCategory, search: search || undefined }),
         getCategories('RESOURCE'),
       ]);
       setResources(Array.isArray(resourcesData) ? resourcesData : []);
@@ -56,7 +58,7 @@ export default function ResourcesListScreen() {
       setIsLoading(false);
       setRefreshing(false);
     }
-  }, [selectedCategory]);
+  }, [selectedCategory, search]);
 
   useEffect(() => { loadData(); }, [loadData]);
 
@@ -92,6 +94,24 @@ export default function ResourcesListScreen() {
 
   return (
     <View style={styles.container}>
+      <View style={styles.searchWrap}>
+        <View style={styles.searchBar}>
+          <Ionicons name="search-outline" size={18} color="#94A3B8" />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Поиск ресурсов..."
+            placeholderTextColor="#94A3B8"
+            value={search}
+            onChangeText={setSearch}
+          />
+          {search.length > 0 && (
+            <TouchableOpacity onPress={() => setSearch('')}>
+              <Ionicons name="close-circle" size={18} color="#94A3B8" />
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
+
       <View style={styles.chipsContainer}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <View style={styles.chips}>
@@ -139,19 +159,44 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F1F5F9' },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
 
-  chipsContainer: { height: 52 },
+  searchWrap: { paddingHorizontal: 16, paddingTop: 12, paddingBottom: 4 },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    backgroundColor: '#ffffff',
+    borderRadius: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 11,
+    shadowColor: '#0F172A',
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  searchInput: { flex: 1, fontSize: 15, color: '#0F172A' },
+
+  chipsContainer: {},
   chips: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 10 },
   chip: {
     paddingHorizontal: 16,
-    paddingVertical: 7,
+    paddingVertical: 8,
     borderRadius: 20,
     backgroundColor: '#ffffff',
     borderWidth: 1.5,
     borderColor: '#E2E8F0',
     marginRight: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   chipActive: { backgroundColor: '#1E40AF', borderColor: '#1E40AF' },
-  chipText: { fontSize: 13, color: '#475569', fontWeight: '600' },
+  chipText: {
+    fontSize: 13,
+    color: '#475569',
+    fontWeight: '600',
+    lineHeight: 16,
+    includeFontPadding: false,
+    textAlignVertical: 'center',
+  },
   chipTextActive: { color: '#ffffff' },
 
   list: { paddingHorizontal: 16, paddingBottom: 20, gap: 10 },

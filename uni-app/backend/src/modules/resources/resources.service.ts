@@ -3,6 +3,7 @@ import prisma from '../../lib/prisma';
 interface ResourceFilters {
   categoryId?: string;
   type?: string;
+  search?: string;
   onlyPublished?: boolean;
 }
 
@@ -39,6 +40,13 @@ export async function getResourcesList(filters: ResourceFilters = {}) {
 
   if (filters.type) {
     where.type = filters.type;
+  }
+
+  if (filters.search) {
+    where.OR = [
+      { title: { contains: filters.search, mode: 'insensitive' } },
+      { description: { contains: filters.search, mode: 'insensitive' } },
+    ];
   }
 
   return prisma.resource.findMany({
