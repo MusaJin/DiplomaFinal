@@ -26,6 +26,7 @@ export interface News {
   shortDescription: string;
   content: string;
   imageUrl?: string;
+  gallery?: string[];
   isPublished: boolean;
   publishedAt?: string;
   authorId: string;

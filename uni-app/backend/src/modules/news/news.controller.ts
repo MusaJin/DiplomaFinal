@@ -3,10 +3,11 @@ import { z } from 'zod';
 import { getNewsList, getNewsById, createNews, updateNews, deleteNews } from './news.service';
 
 const createNewsSchema = z.object({
-  title: z.string().min(3, 'Заголовок слишком короткий'),
-  shortDescription: z.string().min(10, 'Краткое описание слишком короткое'),
-  content: z.string().min(20, 'Содержание слишком короткое'),
+  title: z.string().min(3, 'Введите название (минимум 3 символа)'),
+  shortDescription: z.string().optional().default(''),
+  content: z.string().optional().default(''),
   imageUrl: z.string().url().optional().or(z.literal('')).transform(v => v || undefined),
+  gallery: z.array(z.string().url()).optional(),
   categoryId: z.string().optional(),
   isPublished: z.boolean().optional(),
 });

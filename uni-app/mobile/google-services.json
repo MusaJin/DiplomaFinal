@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1001536226569",
+    "project_id": "univest-cb708",
+    "storage_bucket": "univest-cb708.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001536226569:android:8beb71a22ffd66a1dabfd8",
+        "android_client_info": {
+          "package_name": "ru.university.univest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDeJdNzbj-mZKUfdBIZs5M3VhWDHvzpPM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

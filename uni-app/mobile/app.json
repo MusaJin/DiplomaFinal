@@ -10,13 +10,21 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "kz.university.univest"
+      "bundleIdentifier": "ru.university.univest"
     },
     "android": {
-      "package": "kz.university.univest"
+      "package": "ru.university.univest",
+      "googleServicesFile": "./google-services.json"
     },
     "plugins": [
-      "expo-font"
-    ]
+      "expo-font",
+      "expo-notifications"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "2bb1e63a-d0b3-4c26-ad71-72082a029e0c"
+      }
+    },
+    "owner": "mori404"
   }
 }

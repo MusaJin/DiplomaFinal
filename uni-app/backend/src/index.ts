@@ -9,6 +9,7 @@ import newsRouter from './modules/news/news.router';
 import resourcesRouter from './modules/resources/resources.router';
 import categoriesRouter from './modules/categories/categories.router';
 import notificationsRouter from './modules/notifications/notifications.router';
+import uploadRouter from './modules/upload/upload.router';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,6 +17,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use('/images', express.static(path.join(__dirname, '..', 'public', 'images')));
+app.use('/files', express.static(path.join(__dirname, '..', 'public', 'files')));
 
 // Маршруты
 app.use('/auth', authRouter);
@@ -24,6 +26,7 @@ app.use('/news', newsRouter);
 app.use('/resources', resourcesRouter);
 app.use('/categories', categoriesRouter);
 app.use('/notifications', notificationsRouter);
+app.use('/upload', uploadRouter);
 
 // Health check
 app.get('/health', (_, res) => {

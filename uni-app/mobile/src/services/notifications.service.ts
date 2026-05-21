@@ -1,4 +1,5 @@
 import { Platform } from 'react-native';
+import Constants from 'expo-constants';
 import api from './api';
 
 export async function registerForPushNotifications(): Promise<string | null> {
@@ -26,7 +27,9 @@ export async function registerForPushNotifications(): Promise<string | null> {
       return null;
     }
 
-    const token = (await Notifications.getExpoPushTokenAsync()).data;
+    const projectId = Constants.expoConfig?.extra?.eas?.projectId;
+
+    const token = (await Notifications.getExpoPushTokenAsync({ projectId })).data;
 
     await api.post('/notifications/register-token', {
       token,
