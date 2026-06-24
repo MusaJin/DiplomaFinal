@@ -1,8 +1,12 @@
 import 'dotenv/config';
+import dns from 'node:dns';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import path from 'path';
+
+// Render-инстансы без исходящего IPv6 — форсируем IPv4 для внешних подключений (Gmail SMTP)
+dns.setDefaultResultOrder('ipv4first');
 
 import { env, corsOrigins } from './config/env';
 import { notFoundHandler, errorHandler } from './middleware/error.middleware';
