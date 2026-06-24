@@ -20,6 +20,8 @@ import { getNews } from '../services/news.service';
 import { getResources } from '../services/resources.service';
 import { News, Resource, RootStackParamList, TabParamList } from '../types';
 import { formatDate } from '../utils/date';
+import { getErrorMessage } from '../utils/error';
+import ErrorState from '../components/ErrorState';
 
 type Nav = CompositeNavigationProp<
   BottomTabNavigationProp<TabParamList>,
@@ -58,9 +60,11 @@ export default function HomeScreen() {
   const [resources, setResources] = useState<Resource[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const loadData = useCallback(async () => {
     try {
+      setError(null);
       const [newsData, resourcesData] = await Promise.all([
         getNews(),
         getResources(),
@@ -69,6 +73,7 @@ export default function HomeScreen() {
       setResources(Array.isArray(resourcesData) ? resourcesData.slice(0, 5) : []);
     } catch (error) {
       console.error('Ошибка загрузки данных:', error);
+      setError(getErrorMessage(error));
     } finally {
       setIsLoading(false);
       setRefreshing(false);
@@ -83,6 +88,14 @@ export default function HomeScreen() {
     return (
       <View style={styles.center}>
         <ActivityIndicator size="large" color="#1E40AF" />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.center}>
+        <ErrorState message={error} onRetry={() => { setIsLoading(true); loadData(); }} />
       </View>
     );
   }

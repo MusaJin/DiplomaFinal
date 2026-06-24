@@ -4,7 +4,9 @@ export async function uploadImage(uri: string): Promise<string> {
   const formData = new FormData();
   const name = uri.split('/').pop() || `photo-${Date.now()}.jpg`;
   const match = /\.(\w+)$/.exec(name);
-  const type = match ? `image/${match[1].toLowerCase()}` : 'image/jpeg';
+  // jpg → jpeg: бэкенд принимает только image/(jpeg|png|webp|gif)
+  const ext = (match ? match[1].toLowerCase() : 'jpeg').replace(/^jpg$/, 'jpeg');
+  const type = `image/${ext}`;
 
   formData.append('image', { uri, name, type } as any);
 

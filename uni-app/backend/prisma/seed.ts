@@ -97,6 +97,8 @@ async function main() {
 
   // Создаём новости
   const now = new Date();
+  // Базовый URL для картинок: на проде задаётся PUBLIC_BASE_URL (облачный адрес бэкенда)
+  const IMAGE_BASE = process.env.PUBLIC_BASE_URL || 'http://localhost:3000';
 
   await prisma.news.createMany({
     data: [
@@ -114,7 +116,7 @@ async function main() {
 - Цифровая трансформация учебных процессов
 
 Регистрация открыта до 10 апреля. Для участия необходимо подать заявку через деканат факультета.`,
-        imageUrl: 'http://10.0.2.2:3001/images/news1.jpg',
+        imageUrl: `${IMAGE_BASE}/images/news1.jpg`,
         isPublished: true,
         publishedAt: new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000),
         authorId: admin.id,
@@ -151,7 +153,7 @@ async function main() {
 - Консультации по поступлению и грантам
 
 Вход свободный. Будем рады видеть будущих студентов нашего университета!`,
-        imageUrl: 'http://10.0.2.2:3001/images/news2.jpg',
+        imageUrl: `${IMAGE_BASE}/images/news2.jpg`,
         isPublished: true,
         publishedAt: new Date(now.getTime() - 3 * 24 * 60 * 60 * 1000),
         authorId: admin.id,
@@ -170,7 +172,7 @@ async function main() {
 Документы принимаются до 30 апреля 2026 года в отделе по работе со студентами (корпус A, каб. 105).
 
 Более подробная информация доступна на официальном сайте Минобрнауки РФ.`,
-        imageUrl: 'http://10.0.2.2:3001/images/news3.jpg',
+        imageUrl: `${IMAGE_BASE}/images/news3.jpg`,
         isPublished: true,
         publishedAt: new Date(now.getTime() - 5 * 24 * 60 * 60 * 1000),
         authorId: admin.id,
@@ -192,7 +194,7 @@ async function main() {
 Количество участников в команде: 3-5 человек
 
 Регистрация команд открыта до 20 апреля. Форма регистрации доступна в деканате ФИТ.`,
-        imageUrl: 'http://10.0.2.2:3001/images/news4.jpg',
+        imageUrl: `${IMAGE_BASE}/images/news4.jpg`,
         isPublished: true,
         publishedAt: new Date(now.getTime() - 4 * 24 * 60 * 60 * 1000),
         authorId: teacher.id,
@@ -212,7 +214,7 @@ async function main() {
 Лаборатория оснащена 20 рабочими станциями с GPU NVIDIA RTX 4090 и сервером с 8xA100 для обучения крупных моделей.
 
 Запись на использование лаборатории доступна через кафедру компьютерных наук.`,
-        imageUrl: 'http://10.0.2.2:3001/images/news5.jpg',
+        imageUrl: `${IMAGE_BASE}/images/news5.jpg`,
         isPublished: true,
         publishedAt: new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000),
         authorId: admin.id,
@@ -234,7 +236,7 @@ async function main() {
 - Содействие в поиске жилья
 
 Заявки принимаются до 1 мая 2026 года в международном отделе (корпус A, каб. 210).`,
-        imageUrl: 'http://10.0.2.2:3001/images/news6.jpg',
+        imageUrl: `${IMAGE_BASE}/images/news6.jpg`,
         isPublished: true,
         publishedAt: new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000),
         authorId: admin.id,
@@ -272,7 +274,7 @@ async function main() {
 Статья описывает разработанный алгоритм, который показал точность диагностики на 15% выше существующих аналогов. Результаты исследования будут применяться в сотрудничестве с городскими клиниками.
 
 Поздравляем коллег с заслуженным достижением!`,
-        imageUrl: 'http://10.0.2.2:3001/images/news7.jpg',
+        imageUrl: `${IMAGE_BASE}/images/news7.jpg`,
         isPublished: true,
         publishedAt: new Date(now.getTime() - 20 * 24 * 60 * 60 * 1000),
         authorId: teacher.id,
@@ -298,7 +300,7 @@ async function main() {
 - Пройти предварительное собеседование
 
 Для участия необходимо иметь при себе распечатанное резюме. Вход свободный для студентов 3-4 курсов.`,
-        imageUrl: 'http://10.0.2.2:3001/images/news8.jpg',
+        imageUrl: `${IMAGE_BASE}/images/news8.jpg`,
         isPublished: true,
         publishedAt: new Date(now.getTime() - 6 * 24 * 60 * 60 * 1000),
         authorId: admin.id,

@@ -17,6 +17,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { getResources } from '../../services/resources.service';
 import { getCategories } from '../../services/categories.service';
 import { Resource, Category, RootStackParamList } from '../../types';
+import { getErrorMessage } from '../../utils/error';
+import ErrorState from '../../components/ErrorState';
 
 type Nav = NativeStackNavigationProp<RootStackParamList>;
 
@@ -43,9 +45,11 @@ export default function ResourcesListScreen() {
   const [search, setSearch] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const loadData = useCallback(async () => {
     try {
+      setError(null);
       const [resourcesData, categoriesData] = await Promise.all([
         getResources({ categoryId: selectedCategory, search: search || undefined }),
         getCategories('RESOURCE'),
@@ -54,6 +58,7 @@ export default function ResourcesListScreen() {
       setCategories(Array.isArray(categoriesData) ? categoriesData : []);
     } catch (error) {
       console.error('Ошибка загрузки ресурсов:', error);
+      setError(getErrorMessage(error));
     } finally {
       setIsLoading(false);
       setRefreshing(false);
@@ -134,6 +139,8 @@ export default function ResourcesListScreen() {
         <View style={styles.center}>
           <ActivityIndicator size="large" color="#1E40AF" />
         </View>
+      ) : error ? (
+        <ErrorState message={error} onRetry={() => { setIsLoading(true); loadData(); }} />
       ) : (
         <FlatList
           data={resources}
