@@ -14,6 +14,7 @@ import resourcesRouter from './modules/resources/resources.router';
 import categoriesRouter from './modules/categories/categories.router';
 import notificationsRouter from './modules/notifications/notifications.router';
 import uploadRouter from './modules/upload/upload.router';
+import emailRouter from './modules/email/email.router';
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use('/resources', resourcesRouter);
 app.use('/categories', categoriesRouter);
 app.use('/notifications', notificationsRouter);
 app.use('/upload', uploadRouter);
+app.use('/email', emailRouter);
 
 // Health check
 app.get('/health', (_, res) => {

@@ -6,6 +6,7 @@ import AdminNewsListScreen from '../screens/admin/AdminNewsListScreen';
 import AdminResourceListScreen from '../screens/admin/AdminResourceListScreen';
 import AdminCategoriesScreen from '../screens/admin/AdminCategoriesScreen';
 import AdminNotificationScreen from '../screens/admin/AdminNotificationScreen';
+import AdminEmailScreen from '../screens/admin/AdminEmailScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import { AdminTabParamList } from '../types';
 
@@ -21,6 +22,7 @@ export default function AdminNavigator() {
             AdminResourceList: focused ? 'book' : 'book-outline',
             AdminCategories: focused ? 'grid' : 'grid-outline',
             AdminNotification: focused ? 'notifications' : 'notifications-outline',
+            AdminEmail: focused ? 'mail' : 'mail-outline',
             Profile: focused ? 'person' : 'person-outline',
           };
           return <Ionicons name={icons[route.name]} size={size} color={color} />;
@@ -49,6 +51,7 @@ export default function AdminNavigator() {
       <Tab.Screen name="AdminResourceList" component={AdminResourceListScreen} options={{ title: 'Ресурсы' }} />
       <Tab.Screen name="AdminCategories" component={AdminCategoriesScreen} options={{ title: 'Категории' }} />
       <Tab.Screen name="AdminNotification" component={AdminNotificationScreen} options={{ title: 'Рассылка' }} />
+      <Tab.Screen name="AdminEmail" component={AdminEmailScreen} options={{ title: 'Email' }} />
       <Tab.Screen name="Profile" component={ProfileScreen} options={{ title: 'Профиль', headerShown: false }} />
     </Tab.Navigator>
   );

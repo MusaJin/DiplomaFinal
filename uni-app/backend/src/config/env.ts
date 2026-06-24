@@ -17,6 +17,12 @@ const envSchema = z.object({
   CORS_ORIGIN: z.string().optional(),
   // Базовый URL для построения абсолютных ссылок на медиа (загрузки/сид)
   PUBLIC_BASE_URL: z.string().url().optional(),
+  // SMTP для email-рассылки (опционально: без него бэкенд работает, но /email/send вернёт 503)
+  SMTP_HOST: z.string().default('smtp.gmail.com'),
+  SMTP_PORT: z.coerce.number().default(465),
+  SMTP_USER: z.string().optional(),
+  SMTP_PASS: z.string().optional(),
+  MAIL_FROM: z.string().optional(),
 });
 
 const parsed = envSchema.safeParse(process.env);
