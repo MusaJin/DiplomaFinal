@@ -91,7 +91,11 @@ export default function AdminEmailScreen() {
       const file = res.assets[0];
       setIsUploading(true);
       const uploaded = await uploadFile(file.uri, file.name ?? 'file', file.mimeType ?? undefined);
-      setAttachments((prev) => [...prev, { url: uploaded.url, name: uploaded.name, size: file.size ?? undefined }]);
+      // Имя для письма берём из пикера (а не из round-trip загрузки) и декодируем percent-encoding
+      const rawName = file.name ?? uploaded.name ?? 'file';
+      let displayName = rawName;
+      try { displayName = decodeURIComponent(rawName); } catch { displayName = rawName; }
+      setAttachments((prev) => [...prev, { url: uploaded.url, name: displayName, size: file.size ?? undefined }]);
     } catch (error) {
       Alert.alert('Ошибка', getErrorMessage(error, 'Не удалось прикрепить файл'));
     } finally {

@@ -90,6 +90,5 @@ export type AdminTabParamList = {
   AdminResourceList: undefined;
   AdminCategories: undefined;
   AdminNotification: undefined;
-  AdminEmail: undefined;
   Profile: undefined;
 };
