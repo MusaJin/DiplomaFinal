@@ -26,7 +26,12 @@ function getTransporter(): Transporter {
       host: env.SMTP_HOST,
       port: env.SMTP_PORT,
       secure: env.SMTP_PORT === 465,
+      requireTLS: env.SMTP_PORT !== 465,
       auth: { user: env.SMTP_USER, pass: env.SMTP_PASS },
+      // Явные таймауты — чтобы при сетевом сбое падать с понятной ошибкой, а не висеть
+      connectionTimeout: 12000,
+      greetingTimeout: 12000,
+      socketTimeout: 20000,
     });
   }
   return transporter;
