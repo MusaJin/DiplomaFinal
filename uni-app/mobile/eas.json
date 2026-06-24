@@ -14,7 +14,7 @@
     "preview": {
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://CHANGE-ME.onrender.com"
+        "EXPO_PUBLIC_API_URL": "https://diplomafinal-tzc7.onrender.com"
       },
       "android": {
         "buildType": "apk"
