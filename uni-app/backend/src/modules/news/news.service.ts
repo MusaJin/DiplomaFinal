@@ -51,7 +51,11 @@ export async function getNewsList(filters: NewsFilters = {}) {
       author: { select: { id: true, fullName: true } },
       category: { select: { id: true, name: true } },
     },
-    orderBy: { publishedAt: 'desc' },
+    // Опубликованные сверху по дате публикации; черновики (publishedAt = null) — в конце
+    orderBy: [
+      { publishedAt: { sort: 'desc', nulls: 'last' } },
+      { createdAt: 'desc' },
+    ],
   });
 }
 

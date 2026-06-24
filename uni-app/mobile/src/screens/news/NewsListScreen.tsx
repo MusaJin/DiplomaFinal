@@ -19,6 +19,8 @@ import { getNews } from '../../services/news.service';
 import { getCategories } from '../../services/categories.service';
 import { News, Category, RootStackParamList } from '../../types';
 import { formatDate } from '../../utils/date';
+import { getErrorMessage } from '../../utils/error';
+import ErrorState from '../../components/ErrorState';
 
 type Nav = NativeStackNavigationProp<RootStackParamList>;
 
@@ -37,9 +39,11 @@ export default function NewsListScreen() {
   const [search, setSearch] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const loadData = useCallback(async () => {
     try {
+      setError(null);
       const [newsData, categoriesData] = await Promise.all([
         getNews({ categoryId: selectedCategory, search: search || undefined }),
         getCategories('NEWS'),
@@ -48,6 +52,7 @@ export default function NewsListScreen() {
       setCategories(Array.isArray(categoriesData) ? categoriesData : []);
     } catch (error) {
       console.error('Ошибка загрузки новостей:', error);
+      setError(getErrorMessage(error));
     } finally {
       setIsLoading(false);
       setRefreshing(false);
@@ -130,6 +135,8 @@ export default function NewsListScreen() {
         <View style={styles.center}>
           <ActivityIndicator size="large" color="#1E40AF" />
         </View>
+      ) : error ? (
+        <ErrorState message={error} onRetry={() => { setIsLoading(true); loadData(); }} />
       ) : (
         <FlatList
           data={news}

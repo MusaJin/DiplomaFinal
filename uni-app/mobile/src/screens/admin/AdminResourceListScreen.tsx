@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -40,9 +40,12 @@ export default function AdminResourceListScreen() {
     }
   }, []);
 
-  useEffect(() => {
-    loadResources();
-  }, [loadResources]);
+  // Перезагружаем при каждом фокусе экрана (после возврата с формы создания/редактирования)
+  useFocusEffect(
+    useCallback(() => {
+      loadResources();
+    }, [loadResources])
+  );
 
   const handleDelete = (id: string, title: string) => {
     Alert.alert(

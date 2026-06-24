@@ -9,4 +9,4 @@ docs
 # PM2 logs
 logs/
 *.log
-.claude/
+.claude/uni-app/backend/dist/

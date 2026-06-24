@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuthStore } from '../store/auth.store';
+import { getErrorMessage } from '../utils/error';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -30,9 +31,8 @@ export default function LoginScreen() {
     setIsLoading(true);
     try {
       await login(email.trim(), password);
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : 'Ошибка входа';
-      Alert.alert('Ошибка входа', message);
+    } catch (error) {
+      Alert.alert('Ошибка входа', getErrorMessage(error, 'Не удалось войти'));
     } finally {
       setIsLoading(false);
     }

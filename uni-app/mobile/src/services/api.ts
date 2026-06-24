@@ -1,8 +1,6 @@
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
-
-// Измените на IP вашей машины при тестировании на физическом устройстве
-const API_URL = 'http://192.168.1.152:3001';
+import { API_URL } from '../config/env';
 
 export const api = axios.create({
   baseURL: API_URL,

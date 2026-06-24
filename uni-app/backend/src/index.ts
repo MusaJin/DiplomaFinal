@@ -1,7 +1,11 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
 import path from 'path';
+
+import { env, corsOrigins } from './config/env';
+import { notFoundHandler, errorHandler } from './middleware/error.middleware';
 
 import authRouter from './modules/auth/auth.router';
 import usersRouter from './modules/users/users.router';
@@ -12,12 +16,15 @@ import notificationsRouter from './modules/notifications/notifications.router';
 import uploadRouter from './modules/upload/upload.router';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+app.use(helmet());
+// origin: true — отражает origin запроса (разрешить все); массив — ограничить списком из env
+app.use(cors({ origin: corsOrigins ?? true }));
 app.use(express.json());
-app.use('/images', express.static(path.join(__dirname, '..', 'public', 'images')));
-app.use('/files', express.static(path.join(__dirname, '..', 'public', 'files')));
+
+// crossOriginResourcePolicy ослабляем только для статики, чтобы изображения грузились из веб-клиента
+app.use('/images', helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }), express.static(path.join(__dirname, '..', 'public', 'images')));
+app.use('/files', helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }), express.static(path.join(__dirname, '..', 'public', 'files')));
 
 // Маршруты
 app.use('/auth', authRouter);
@@ -33,7 +40,11 @@ app.get('/health', (_, res) => {
   res.json({ status: 'ok', message: 'Сервер работает', timestamp: new Date().toISOString() });
 });
 
-app.listen(PORT, () => {
-  console.log(`Сервер запущен на порту ${PORT}`);
-  console.log(`Health check: http://localhost:${PORT}/health`);
+// Обработка несуществующих маршрутов и ошибок (после всех роутов)
+app.use(notFoundHandler);
+app.use(errorHandler);
+
+app.listen(env.PORT, () => {
+  console.log(`Сервер запущен на порту ${env.PORT} (${env.NODE_ENV})`);
+  console.log(`Health check: http://localhost:${env.PORT}/health`);
 });
